@@ -24,8 +24,8 @@ public class Server {
         	
         	final boolean LOW_THREADS = true;
         	if (LOW_THREADS) {
-        		properties.setProperty("Ice.ThreadPool.Server.Size", "2");
-        		properties.setProperty("Ice.ThreadPool.Server.SizeMax", "2");
+        		properties.setProperty("Ice.ThreadPool.Server.Size", "1");
+        		properties.setProperty("Ice.ThreadPool.Server.SizeMax", "1");
         	}
 
         	properties.setProperty("Ice.Trace.Slicing", "1");
@@ -43,8 +43,8 @@ public class Server {
             Ice.ObjectPrx objPrx;
             final boolean INTERCEPTOR_ON = false;
             if (INTERCEPTOR_ON) {
-            	TestInterceptor interceptor = new TestInterceptor(object);
-            	objPrx = adapter.add(interceptor, ic.stringToIdentity("SimplePrinter"));
+            	// TestInterceptor interceptor = new TestInterceptor(object);
+            	// objPrx = adapter.add(interceptor, ic.stringToIdentity("SimplePrinter"));
             }
             else {
             	objPrx = adapter.add(object, ic.stringToIdentity("SimplePrinter"));

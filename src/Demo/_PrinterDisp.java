@@ -69,6 +69,12 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
     }
 
     public final void
+    amdAppThreadCircular_async(AMD_Printer_amdAppThreadCircular __cb, String s, int level)
+    {
+        amdAppThreadCircular_async(__cb, s, level, null);
+    }
+
+    public final void
     amdCircular_async(AMD_Printer_amdCircular __cb, String s, int level)
     {
         amdCircular_async(__cb, s, level, null);
@@ -164,8 +170,32 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
         return Ice.DispatchStatus.DispatchAsync;
     }
 
+    public static Ice.DispatchStatus
+    ___amdAppThreadCircular(Printer __obj, IceInternal.Incoming __inS, Ice.Current __current)
+    {
+        __checkMode(Ice.OperationMode.Normal, __current.mode);
+        IceInternal.BasicStream __is = __inS.is();
+        __is.startReadEncaps();
+        String s;
+        s = __is.readString();
+        int level;
+        level = __is.readInt();
+        __is.endReadEncaps();
+        AMD_Printer_amdAppThreadCircular __cb = new _AMD_Printer_amdAppThreadCircular(__inS);
+        try
+        {
+            __obj.amdAppThreadCircular_async(__cb, s, level, __current);
+        }
+        catch(java.lang.Exception ex)
+        {
+            __cb.ice_exception(ex);
+        }
+        return Ice.DispatchStatus.DispatchAsync;
+    }
+
     private final static String[] __all =
     {
+        "amdAppThreadCircular",
         "amdCircular",
         "amdPrintString",
         "ice_id",
@@ -189,33 +219,37 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
         {
             case 0:
             {
-                return ___amdCircular(this, in, __current);
+                return ___amdAppThreadCircular(this, in, __current);
             }
             case 1:
             {
-                return ___amdPrintString(this, in, __current);
+                return ___amdCircular(this, in, __current);
             }
             case 2:
             {
-                return ___ice_id(this, in, __current);
+                return ___amdPrintString(this, in, __current);
             }
             case 3:
             {
-                return ___ice_ids(this, in, __current);
+                return ___ice_id(this, in, __current);
             }
             case 4:
             {
-                return ___ice_isA(this, in, __current);
+                return ___ice_ids(this, in, __current);
             }
             case 5:
             {
-                return ___ice_ping(this, in, __current);
+                return ___ice_isA(this, in, __current);
             }
             case 6:
             {
-                return ___oldAmiCircular(this, in, __current);
+                return ___ice_ping(this, in, __current);
             }
             case 7:
+            {
+                return ___oldAmiCircular(this, in, __current);
+            }
+            case 8:
             {
                 return ___oldAmiPrintString(this, in, __current);
             }

@@ -1,8 +1,19 @@
 
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class PrinterI extends Demo._PrinterDisp {
 
+	private ThreadPoolExecutor pool;
+	private BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
+	
+	public PrinterI() {
+		pool = new ThreadPoolExecutor(100,200,24,TimeUnit.HOURS,queue);
+	}
+	
     public void oldAmiPrintString(String s, Ice.Current current) {
         System.out.println("\n Entering PrinterI.oldAmiPrintString... t=" + System.currentTimeMillis());
         printStringCommon(s,current);        
@@ -29,20 +40,23 @@ public class PrinterI extends Demo._PrinterDisp {
         System.out.println("Exiting PrinterI.oldAmiCircular... t=" + System.currentTimeMillis());
     }
 
+    
     public void amdPrintString_async(Demo.AMD_Printer_amdPrintString cb,String s, Ice.Current current) {
         System.out.println("\n Entering PrinterI.amdPrintString... t=" + System.currentTimeMillis());
     	System.out.println("Current.con=" + current.con);
-    	
+
         cb.ice_response();
 
         printStringCommon(s,current);        
-        System.out.println("Exiting PrinterI.amdPrintString... t=" + System.currentTimeMillis());
+        System.out.println("Exiting PrinterI.amdPrintString... t=" + System.currentTimeMillis());        
     }
 
     public void amdCircular_async(Demo.AMD_Printer_amdCircular cb,String s,int level,Ice.Current current) {
         System.out.println("\n Entering PrinterI.amdCircular_async, level==" + level +
         		"... t=" + System.currentTimeMillis());
     	System.out.println("Current.con=" + current.con);
+        System.out.println("Current thread=" + Thread.currentThread().getName());
+        System.out.println("Current thread group=" + Thread.currentThread().getThreadGroup().getName());
 
         cb.ice_response();
 
@@ -59,9 +73,46 @@ public class PrinterI extends Demo._PrinterDisp {
 	        System.out.println("Done amdCircular -> amdCircular, level=" + level);        	
         }
         
-        System.out.println("Exiting PrinterI.amdCircular_async... t=" + System.currentTimeMillis());
+        System.out.println("Exiting PrinterI.amdCircular_async... t=" + System.currentTimeMillis());        
     }
 
+    
+    public void amdAppThreadCircular_async(Demo.AMD_Printer_amdAppThreadCircular cb,String s,int level,Ice.Current current) {
+    	Job jb = new Job(cb,s,level);
+    	pool.execute(jb);
+    }
+
+    public class Job implements Runnable {
+        Job(Demo.AMD_Printer_amdAppThreadCircular cb,String s,int level) {
+            this.cb = cb;
+            this.s = s;
+            this.level = level;
+        }
+
+        public void run()
+        {
+            Demo.PrinterPrx printer = Server.getPrinterPrx();
+            if (level==0) {
+    	        System.out.println(s);
+            }
+            else {
+            	level--;
+    	        System.out.println("amdAppThreadCircular -> amdAppThreadCircular, level=" + level);
+    	        System.out.flush();
+    	        printer.amdAppThreadCircular(s, level);
+    	        System.out.println("Done amdAppThreadCircular -> amdAppThreadCircular, level=" + level);        	
+    	        System.out.flush();
+            }
+        	
+            cb.ice_response();
+        }
+
+        private Demo.AMD_Printer_amdAppThreadCircular cb;
+        private String s;
+        private int level;
+    }
+    
+    
     private void printStringCommon(String s, Ice.Current current) {
 
     	final boolean INTERCEPTOR_ON = false;

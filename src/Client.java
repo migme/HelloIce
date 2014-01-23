@@ -32,6 +32,7 @@ public class Client implements Runnable {
             if (printer == null)
                 throw new Error("Invalid proxy");
 
+            /*
             System.out.println();
             System.out.println("Client calling Printer.oldAmiPrintString_async... t=" + System.currentTimeMillis());
             printer.oldAmiPrintString_async(new PrintStringCallback(), "Hello World! -- via oldAmiPrintString");
@@ -48,6 +49,13 @@ public class Client implements Runnable {
             System.out.println("Client calling Printer.amdCircular... t=" + System.currentTimeMillis());
             printer.amdCircular("Hello World! -- via amdCircular", 5);
             System.out.println("Client called Printer.amdCircular... t=" + System.currentTimeMillis());
+            System.out.flush();
+            */
+
+            System.out.println();
+            System.out.println("Client calling Printer.amdAppThreadCircular... t=" + System.currentTimeMillis());
+            printer.amdAppThreadCircular("Hello World! -- via amdAppThreadCircular", 5);
+            System.out.println("Client called Printer.amdAppThreadCircular... t=" + System.currentTimeMillis());
             System.out.flush();
 
             /*

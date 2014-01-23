@@ -14,6 +14,13 @@ package Demo;
 public final class _PrinterDelD extends Ice._ObjectDelD implements _PrinterDel
 {
     public void
+    amdAppThreadCircular(final String s, final int level, java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper
+    {
+        throw new Ice.CollocationOptimizationException();
+    }
+
+    public void
     amdCircular(final String s, final int level, java.util.Map<String, String> __ctx)
         throws IceInternal.LocalExceptionWrapper
     {

@@ -14,6 +14,53 @@ package Demo;
 public final class _PrinterDelM extends Ice._ObjectDelM implements _PrinterDel
 {
     public void
+    amdAppThreadCircular(String s, int level, java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper
+    {
+        IceInternal.Outgoing __og = __handler.getOutgoing("amdAppThreadCircular", Ice.OperationMode.Normal, __ctx);
+        try
+        {
+            try
+            {
+                IceInternal.BasicStream __os = __og.os();
+                __os.writeString(s);
+                __os.writeInt(level);
+            }
+            catch(Ice.LocalException __ex)
+            {
+                __og.abort(__ex);
+            }
+            boolean __ok = __og.invoke();
+            if(!__og.is().isEmpty())
+            {
+                try
+                {
+                    if(!__ok)
+                    {
+                        try
+                        {
+                            __og.throwUserException();
+                        }
+                        catch(Ice.UserException __ex)
+                        {
+                            throw new Ice.UnknownUserException(__ex.ice_name());
+                        }
+                    }
+                    __og.is().skipEmptyEncaps();
+                }
+                catch(Ice.LocalException __ex)
+                {
+                    throw new IceInternal.LocalExceptionWrapper(__ex, false);
+                }
+            }
+        }
+        finally
+        {
+            __handler.reclaimOutgoing(__og);
+        }
+    }
+
+    public void
     amdCircular(String s, int level, java.util.Map<String, String> __ctx)
         throws IceInternal.LocalExceptionWrapper
     {

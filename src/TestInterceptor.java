@@ -4,7 +4,9 @@ import Ice.Current;
 import Ice.DispatchStatus;
 import Ice.Request;
 
-public class TestInterceptor extends Ice.DispatchInterceptor {
+public class TestInterceptor {
+
+	/*extends Ice.DispatchInterceptor {
 
 	private Ice.Object servant;
 	
@@ -28,7 +30,8 @@ public class TestInterceptor extends Ice.DispatchInterceptor {
         System.out.println("pool=" + pool);
         
         return servant.ice_dispatch(request, null);
-	}
+        */
+	
 
 }
 

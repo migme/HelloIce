@@ -14,6 +14,48 @@ package Demo;
 public final class PrinterPrxHelper extends Ice.ObjectPrxHelperBase implements PrinterPrx
 {
     public void
+    amdAppThreadCircular(String s, int level)
+    {
+        amdAppThreadCircular(s, level, null, false);
+    }
+
+    public void
+    amdAppThreadCircular(String s, int level, java.util.Map<String, String> __ctx)
+    {
+        amdAppThreadCircular(s, level, __ctx, true);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void
+    amdAppThreadCircular(String s, int level, java.util.Map<String, String> __ctx, boolean __explicitCtx)
+    {
+        if(__explicitCtx && __ctx == null)
+        {
+            __ctx = _emptyContext;
+        }
+        int __cnt = 0;
+        while(true)
+        {
+            Ice._ObjectDel __delBase = null;
+            try
+            {
+                __delBase = __getDelegate(false);
+                _PrinterDel __del = (_PrinterDel)__delBase;
+                __del.amdAppThreadCircular(s, level, __ctx);
+                return;
+            }
+            catch(IceInternal.LocalExceptionWrapper __ex)
+            {
+                __handleExceptionWrapper(__delBase, __ex, null);
+            }
+            catch(Ice.LocalException __ex)
+            {
+                __cnt = __handleException(__delBase, __ex, null, __cnt);
+            }
+        }
+    }
+
+    public void
     amdCircular(String s, int level)
     {
         amdCircular(s, level, null, false);

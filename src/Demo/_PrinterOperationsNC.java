@@ -20,4 +20,6 @@ public interface _PrinterOperationsNC
     void amdPrintString_async(AMD_Printer_amdPrintString __cb, String s);
 
     void amdCircular_async(AMD_Printer_amdCircular __cb, String s, int level);
+
+    void amdAppThreadCircular_async(AMD_Printer_amdAppThreadCircular __cb, String s, int level);
 }
