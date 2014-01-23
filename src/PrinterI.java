@@ -27,13 +27,13 @@ public class PrinterI extends Demo._PrinterDisp {
         Demo.PrinterPrx printer = Server.getPrinterPrx();
         if (level==0) {
 	        System.out.println("oldAmiCircular -> oldAmiPrintString");
-	        printer.oldAmiPrintString(s);
+            printer.oldAmiPrintString_async(new Client.PrintStringCallback(), s);
 	        System.out.println("Done oldAmiCircular -> oldAmiPrintString");
         }
         else {
         	level--;
 	        System.out.println("oldAmiCircular -> oldAmiCircular, level=" + level);
-	        printer.oldAmiCircular(s, level);
+            printer.oldAmiCircular_async(new Client.CircularCallback(), s, level);
 	        System.out.println("Done oldAmiCircular -> oldAmiCircular, level=" + level);        	
         }
 

@@ -52,20 +52,21 @@ public class Client implements Runnable {
             System.out.flush();
             */
 
+            /*
             System.out.println();
             System.out.println("Client calling Printer.amdAppThreadCircular... t=" + System.currentTimeMillis());
             printer.amdAppThreadCircular("Hello World! -- via amdAppThreadCircular", 5);
             System.out.println("Client called Printer.amdAppThreadCircular... t=" + System.currentTimeMillis());
             System.out.flush();
+            */
 
-            /*
             // WONT WORK
             System.out.println();
             System.out.println("Client calling Printer.oldAmiCircular... t=" + System.currentTimeMillis());
-            printer.oldAmiCircular("Hello World! -- via oldAmiCircular", 5);
+            printer.oldAmiCircular_async(new Client.CircularCallback(),
+            		"Hello World! -- via oldAmiCircular", 5);
             System.out.println("Client called Printer.oldAmiCircular... t=" + System.currentTimeMillis());
             System.out.flush();
-            */
 
         } catch (Ice.LocalException e) {
             e.printStackTrace();
@@ -86,7 +87,22 @@ public class Client implements Runnable {
         }    	
     }
     
-    class PrintStringCallback extends Demo.AMI_Printer_oldAmiPrintString {
+    public static class PrintStringCallback extends Demo.AMI_Printer_oldAmiPrintString {
+    	public void ice_response()
+    	{
+	    	System.out.println("ice_response");
+    	}
+    	public void ice_exception(Ice.UserException ex)
+    	{
+    		System.err.println(ex);
+    	}
+    	public void ice_exception(Ice.LocalException ex)
+    	{
+    		System.err.println(ex);
+    	}
+	}
+
+    public static class CircularCallback extends Demo.AMI_Printer_oldAmiCircular {
     	public void ice_response()
     	{
 	    	System.out.println("ice_response");
