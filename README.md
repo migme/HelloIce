@@ -1,6 +1,9 @@
 For testing:
+
 *Ice interceptor mechanism
+
 *Thread pool exhaustion, especially for circular calls
+
 *AMI and AMD mechanisms
 
 
