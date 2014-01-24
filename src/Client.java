@@ -26,12 +26,34 @@ public class Client implements Runnable {
         int status = 0;
         Ice.Communicator ic = null;
         try {
-            ic = Ice.Util.initialize(args);
+        	Ice.Properties properties = Ice.Util.createProperties();
+        	properties.setProperty("Ice.Default.CollocationOptimized", "0");
+        	
+        	final boolean LOW_THREADS = true;
+        	if (LOW_THREADS) {
+        		properties.setProperty("Ice.ThreadPool.Client.Size", "1");
+        		properties.setProperty("Ice.ThreadPool.Client.SizeMax", "1");
+        	}
+
+        	properties.setProperty("Ice.Trace.Slicing", "1");
+
+        	Ice.InitializationData id = new Ice.InitializationData();
+        	id.properties = properties;
+        	
+            ic = Ice.Util.initialize(args, id);
             Ice.ObjectPrx base = ic.stringToProxy("SimplePrinter:default -p 10000");
             Demo.PrinterPrx printer = Demo.PrinterPrxHelper.checkedCast(base);
             if (printer == null)
                 throw new Error("Invalid proxy");
 
+            /*
+            System.out.println();
+            System.out.println("Client calling Printer.circular... t=" + System.currentTimeMillis());
+            printer.circular("Hello World! -- via circular", 5);
+            System.out.println("Client called Printer.circular... t=" + System.currentTimeMillis());
+            System.out.flush();
+			*/
+            
             /*
             System.out.println();
             System.out.println("Client calling Printer.oldAmiPrintString_async... t=" + System.currentTimeMillis());
@@ -52,22 +74,21 @@ public class Client implements Runnable {
             System.out.flush();
             */
 
-            /*
             System.out.println();
             System.out.println("Client calling Printer.amdAppThreadCircular... t=" + System.currentTimeMillis());
             printer.amdAppThreadCircular("Hello World! -- via amdAppThreadCircular", 5);
             System.out.println("Client called Printer.amdAppThreadCircular... t=" + System.currentTimeMillis());
             System.out.flush();
-            */
 
             // WONT WORK
+            /*
             System.out.println();
             System.out.println("Client calling Printer.oldAmiCircular... t=" + System.currentTimeMillis());
             printer.oldAmiCircular_async(new Client.CircularCallback(),
             		"Hello World! -- via oldAmiCircular", 5);
             System.out.println("Client called Printer.oldAmiCircular... t=" + System.currentTimeMillis());
             System.out.flush();
-
+			*/
         } catch (Ice.LocalException e) {
             e.printStackTrace();
             status = 1;
