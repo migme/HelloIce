@@ -77,42 +77,52 @@ public class PrinterI extends Demo._PrinterDisp {
     }
 
     
-    public void amdAppThreadCircular_async(Demo.AMD_Printer_amdAppThreadCircular cb,String s,int level,Ice.Current current) {
-    	Job jb = new Job(cb,s,level);
-    	pool.execute(jb);
+    public void amdAppThreadCircular_async(final Demo.AMD_Printer_amdAppThreadCircular cb, final String s,final int level,Ice.Current current) {
+    	pool.execute(new Runnable() {
+    		public void run() {
+                Demo.PrinterPrx printer = Server.getPrinterPrx();
+                if (level==0) {
+        	        System.out.println(s);
+                }
+                else {
+                	int newLevel = level-1;
+        	        System.out.println("amdAppThreadCircular -> amdAppThreadCircular, level=" + newLevel);
+        	        System.out.flush();
+        	        printer.amdAppThreadCircular(s, newLevel);
+        	        System.out.println("Done amdAppThreadCircular -> amdAppThreadCircular, level=" + newLevel);        	
+        	        System.out.flush();
+                }
+            	
+                cb.ice_response();
+    		}
+    	});
     }
 
-    public class Job implements Runnable {
-        Job(Demo.AMD_Printer_amdAppThreadCircular cb,String s,int level) {
-            this.cb = cb;
-            this.s = s;
-            this.level = level;
-        }
-
-        public void run()
-        {
-            Demo.PrinterPrx printer = Server.getPrinterPrx();
-            if (level==0) {
-    	        System.out.println(s);
-            }
-            else {
-            	level--;
-    	        System.out.println("amdAppThreadCircular -> amdAppThreadCircular, level=" + level);
-    	        System.out.flush();
-    	        printer.amdAppThreadCircular(s, level);
-    	        System.out.println("Done amdAppThreadCircular -> amdAppThreadCircular, level=" + level);        	
-    	        System.out.flush();
-            }
-        	
-            cb.ice_response();
-        }
-
-        private Demo.AMD_Printer_amdAppThreadCircular cb;
-        private String s;
-        private int level;
-    }
     
-    
+	public void printString(String s, Ice.Current current) {
+        System.out.println("\n Entering PrinterI.printString... t=" + System.currentTimeMillis());
+    	System.out.println("Current.con=" + current.con);
+    	System.out.flush();
+
+        printStringCommon(s,current);        
+        System.out.println("Exiting PrinterI.printString... t=" + System.currentTimeMillis());        
+	}
+	
+	public void circular(String s, int level, Ice.Current current) {
+        Demo.PrinterPrx printer = Server.getPrinterPrx();
+        if (level==0) {
+        	printer.printString(s);
+        }
+        else {
+        	int newLevel = level-1;
+	        System.out.println("circular -> circular, level=" + newLevel);
+	        System.out.flush();
+	        printer.circular(s, newLevel);
+	        System.out.println("Done circular -> circular, level=" + newLevel);        	
+	        System.out.flush();
+        }
+	}
+	
     private void printStringCommon(String s, Ice.Current current) {
 
     	final boolean INTERCEPTOR_ON = false;

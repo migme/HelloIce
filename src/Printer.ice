@@ -9,6 +9,9 @@ module Demo {
 
         ["amd"] void amdAppThreadCircular(string s, int level);
         
+		void printString(string s);
+		void circular(string s, int level);
+
         /// void printString(string s);
     };
 };
