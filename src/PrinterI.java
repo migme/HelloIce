@@ -90,6 +90,8 @@ public class PrinterI extends Demo._PrinterDisp {
     		public void run() {
                 Demo.PrinterPrx printer = Server.getPrinterPrx();
                 if (level==0) {
+					System.out.println("amdAmiCircular -> amdAmiPrintString");
+					System.out.flush();
 					printer.amdAmiPrintString_async(new Demo.AMI_Printer_amdAmiPrintString() {
 							@Override public void ice_response() {
 								System.out.println("Done amdAmiPrintString");

@@ -33,6 +33,8 @@ public class Client implements Runnable {
         	if (LOW_THREADS) {
         		properties.setProperty("Ice.ThreadPool.Client.Size", "1");
         		properties.setProperty("Ice.ThreadPool.Client.SizeMax", "1");
+        		properties.setProperty("Ice.ThreadPool.Server.Size", "1");
+        		properties.setProperty("Ice.ThreadPool.Server.SizeMax", "1");
         	}
 
         	properties.setProperty("Ice.Trace.Slicing", "1");
@@ -74,13 +76,15 @@ public class Client implements Runnable {
             System.out.flush();
             */
 
-            System.out.println();
-            System.out.println("Client calling Printer.amdAmiCircular_async... t=" + System.currentTimeMillis());
-            printer.amdAmiCircular_async(new AmdAmiCircularCallback(), "Hello World! -- via amdAmiPrintString", 1000);
-            System.out.flush();
+			for(int i = 0; i < 10; ++i) {
+				System.out.println();
+				System.out.println("Client calling Printer.amdAmiCircular_async... t=" + System.currentTimeMillis());
+				printer.amdAmiCircular_async(new AmdAmiCircularCallback(i), "Hello World! -- via amdAmiPrintString", 1000);
+				System.out.flush();
+			}
 
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(20000);
 			} catch(Exception e) {
 			}
 
@@ -136,9 +140,15 @@ public class Client implements Runnable {
 	}
 
 	public static class AmdAmiCircularCallback extends Demo.AMI_Printer_amdAmiCircular {
+		private int i;
+
+		AmdAmiCircularCallback(int i) {
+			this.i = i;
+		}
+
     	public void ice_response()
     	{
-            System.out.println("Client called Printer.amdAmiCircular_async... t=" + System.currentTimeMillis());
+            System.out.println(String.format("Client called Printer.amdAmiCircular_async: %d: t=%d", i, System.currentTimeMillis()));
     	}
     	public void ice_exception(Ice.UserException ex)
     	{
