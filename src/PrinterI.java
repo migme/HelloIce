@@ -11,7 +11,7 @@ public class PrinterI extends Demo._PrinterDisp {
 	private BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
 	
 	public PrinterI() {
-		pool = new ThreadPoolExecutor(100,200,24,TimeUnit.HOURS,queue);
+		pool = new ThreadPoolExecutor(1,1,24,TimeUnit.HOURS,queue);
 	}
 	
     public void oldAmiPrintString(String s, Ice.Current current) {
@@ -76,12 +76,61 @@ public class PrinterI extends Demo._PrinterDisp {
         System.out.println("Exiting PrinterI.amdCircular_async... t=" + System.currentTimeMillis());        
     }
 
+    public void amdAmiPrintString_async(Demo.AMD_Printer_amdAmiPrintString cb,String s, Ice.Current current) {
+        System.out.println("\n Entering PrinterI.amdAmiPrintString... t=" + System.currentTimeMillis());
+    	System.out.println("Current.con=" + current.con);
+
+        printStringCommon(s,current);        
+        System.out.println("Exiting PrinterI.amdAmiPrintString... t=" + System.currentTimeMillis());        
+        cb.ice_response();
+    }
+
+    public void amdAmiCircular_async(final Demo.AMD_Printer_amdAmiCircular cb,final String s,final int level,Ice.Current current) {
+    	pool.execute(new Runnable() {
+    		public void run() {
+                Demo.PrinterPrx printer = Server.getPrinterPrx();
+                if (level==0) {
+					printer.amdAmiPrintString_async(new Demo.AMI_Printer_amdAmiPrintString() {
+							@Override public void ice_response() {
+								System.out.println("Done amdAmiPrintString");
+								cb.ice_response();
+							}
+							@Override public void ice_exception(Ice.LocalException ex) {
+								System.err.println(ex);
+							}
+						},
+						s);
+                }
+                else {
+                	final int newLevel = level-1;
+        	        System.out.println("amdAmiCircular -> amdAmiCircular, level=" + newLevel);
+        	        System.out.flush();
+
+					printer.amdAmiCircular_async(new Demo.AMI_Printer_amdAmiCircular() {
+							@Override public void ice_response() {
+								System.out.println("Done amdAmiCircular -> amdAmiCircular, level=" + newLevel);        	
+								System.out.flush();
+								cb.ice_response();
+							}
+							@Override public void ice_exception(Ice.LocalException ex) {
+								System.err.println(ex);
+							}
+						}, 
+						s, newLevel);
+                }
+            	
+    		}
+    	});
+    }
+
+    
     
     public void amdAppThreadCircular_async(final Demo.AMD_Printer_amdAppThreadCircular cb, final String s,final int level,Ice.Current current) {
     	pool.execute(new Runnable() {
     		public void run() {
                 Demo.PrinterPrx printer = Server.getPrinterPrx();
                 if (level==0) {
+					printer.amdPrintString(s);
         	        System.out.println(s);
                 }
                 else {
@@ -97,6 +146,8 @@ public class PrinterI extends Demo._PrinterDisp {
     		}
     	});
     }
+
+
 
     
 	public void printString(String s, Ice.Current current) {

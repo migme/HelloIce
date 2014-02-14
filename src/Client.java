@@ -75,10 +75,22 @@ public class Client implements Runnable {
             */
 
             System.out.println();
+            System.out.println("Client calling Printer.amdAmiCircular_async... t=" + System.currentTimeMillis());
+            printer.amdAmiCircular_async(new AmdAmiCircularCallback(), "Hello World! -- via amdAmiPrintString", 1000);
+            System.out.flush();
+
+			try {
+				Thread.sleep(5000);
+			} catch(Exception e) {
+			}
+
+			/*
+            System.out.println();
             System.out.println("Client calling Printer.amdAppThreadCircular... t=" + System.currentTimeMillis());
-            printer.amdAppThreadCircular("Hello World! -- via amdAppThreadCircular", 5);
+            printer.amdAppThreadCircular("Hello World! -- via amdAppThreadCircular", 1000);
             System.out.println("Client called Printer.amdAppThreadCircular... t=" + System.currentTimeMillis());
             System.out.flush();
+			*/
 
             // WONT WORK
             /*
@@ -122,6 +134,22 @@ public class Client implements Runnable {
     		System.err.println(ex);
     	}
 	}
+
+	public static class AmdAmiCircularCallback extends Demo.AMI_Printer_amdAmiCircular {
+    	public void ice_response()
+    	{
+            System.out.println("Client called Printer.amdAmiCircular_async... t=" + System.currentTimeMillis());
+    	}
+    	public void ice_exception(Ice.UserException ex)
+    	{
+    		System.err.println(ex);
+    	}
+    	public void ice_exception(Ice.LocalException ex)
+    	{
+    		System.err.println(ex);
+    	}
+	}
+
 
     public static class CircularCallback extends Demo.AMI_Printer_oldAmiCircular {
     	public void ice_response()
