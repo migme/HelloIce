@@ -76,11 +76,21 @@ public class Client implements Runnable {
             System.out.flush();
             */
 
+
+			for(int i = 0; i < 5; ++i) {
+				System.out.println();
+				System.out.println(String.format("Client calling Printer.amdAmiCircular: %d: t=%d", i, System.currentTimeMillis()));
+				System.out.flush();
+				printer.amdAmiCircular("Hello World! -- via amdAmiPrintString", 1000);
+				System.out.println(String.format("Client called Printer.amdAmiCircular: %d: t=%d", i, System.currentTimeMillis()));
+				System.out.flush();
+			}
+
 			for(int i = 0; i < 10; ++i) {
 				System.out.println();
 				System.out.println("Client calling Printer.amdAmiCircular_async... t=" + System.currentTimeMillis());
-				printer.amdAmiCircular_async(new AmdAmiCircularCallback(i), "Hello World! -- via amdAmiPrintString", 1000);
 				System.out.flush();
+				printer.amdAmiCircular_async(new AmdAmiCircularCallback(i), "Hello World! -- via amdAmiPrintString", 1000);
 			}
 
 			try {
@@ -149,6 +159,7 @@ public class Client implements Runnable {
     	public void ice_response()
     	{
             System.out.println(String.format("Client called Printer.amdAmiCircular_async: %d: t=%d", i, System.currentTimeMillis()));
+			System.out.flush();
     	}
     	public void ice_exception(Ice.UserException ex)
     	{
