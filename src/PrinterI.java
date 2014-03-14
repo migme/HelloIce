@@ -159,5 +159,10 @@ public class PrinterI extends Demo._PrinterDisp {
         }
         catch (Exception e) {}    	
     }
+    
+	public void initiateMarshalledProxyCallbackTest(Ice.Current current) {
+        Demo.PrinterPrx printer = Server.getPrinterPrx();
+        
+	}
 }
 

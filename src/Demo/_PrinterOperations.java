@@ -22,4 +22,10 @@ public interface _PrinterOperations
     void amdCircular_async(AMD_Printer_amdCircular __cb, String s, int level, Ice.Current __current);
 
     void amdAppThreadCircular_async(AMD_Printer_amdAppThreadCircular __cb, String s, int level, Ice.Current __current);
+
+    void printString(String s, Ice.Current __current);
+
+    void circular(String s, int level, Ice.Current __current);
+
+    void initiateMarshalledProxyCallbackTest(Ice.Current __current);
 }

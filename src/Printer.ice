@@ -13,6 +13,12 @@ module Demo {
 		void circular(string s, int level);
 
         /// void printString(string s);
+        
+        void initiateMarshalledProxyCallbackTest();
+    };
+    
+    interface MarshalledProxyCallbackTest {
+    	void doMarshalledProxyCallbackTest(Printer* callMeBack);
     };
 };
 
