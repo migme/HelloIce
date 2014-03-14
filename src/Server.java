@@ -5,8 +5,13 @@ public class Server {
     private static Ice.Communicator ic = null;
     
     public static synchronized Demo.PrinterPrx getPrinterPrx() {
-        Ice.ObjectPrx base = Server.ic.stringToProxy(Constants.PRINTER_OBJECT_IDENTITY +":default -p 10000");
+        Ice.ObjectPrx base = Server.ic.stringToProxy(Constants.PRINTER_OBJECT_IDENTITY +":default -p " + Constants.PRINTER_ADAPTER_PORT);
         return Demo.PrinterPrxHelper.checkedCast(base);
+    }
+
+    public static synchronized Demo.MarshalledProxyCallbackTestPrx getMPCTPrx() {
+        Ice.ObjectPrx base = Server.ic.stringToProxy(Constants.MPCT_OBJECT_IDENTITY +":default -p " + Constants.MPCT_ADAPTER_PORT);
+        return Demo.MarshalledProxyCallbackTestPrxHelper.checkedCast(base);
     }
 
     public static void main(String[] args)
@@ -20,6 +25,7 @@ public class Server {
         	// properties.setProperty("Ice.ThreadPool.Client.Size", "2");
         	// properties.setProperty("Ice.ThreadPool.Client.SizeMax", "2");
 
+        	/*
         	properties.setProperty("Ice.Default.CollocationOptimized", "0");
         	
         	final boolean LOW_THREADS = true;
@@ -29,6 +35,7 @@ public class Server {
         	}
 
         	properties.setProperty("Ice.Trace.Slicing", "1");
+        	*/
 
         	Ice.InitializationData id = new Ice.InitializationData();
         	id.properties = properties;

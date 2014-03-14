@@ -36,4 +36,7 @@ public interface _PrinterDel extends Ice._ObjectDel
 
     void initiateMarshalledProxyCallbackTest(java.util.Map<String, String> __ctx)
         throws IceInternal.LocalExceptionWrapper;
+
+    void callMeBack(java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper;
 }

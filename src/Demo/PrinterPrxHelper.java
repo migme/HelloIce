@@ -140,6 +140,48 @@ public final class PrinterPrxHelper extends Ice.ObjectPrxHelperBase implements P
     }
 
     public void
+    callMeBack()
+    {
+        callMeBack(null, false);
+    }
+
+    public void
+    callMeBack(java.util.Map<String, String> __ctx)
+    {
+        callMeBack(__ctx, true);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void
+    callMeBack(java.util.Map<String, String> __ctx, boolean __explicitCtx)
+    {
+        if(__explicitCtx && __ctx == null)
+        {
+            __ctx = _emptyContext;
+        }
+        int __cnt = 0;
+        while(true)
+        {
+            Ice._ObjectDel __delBase = null;
+            try
+            {
+                __delBase = __getDelegate(false);
+                _PrinterDel __del = (_PrinterDel)__delBase;
+                __del.callMeBack(__ctx);
+                return;
+            }
+            catch(IceInternal.LocalExceptionWrapper __ex)
+            {
+                __handleExceptionWrapper(__delBase, __ex, null);
+            }
+            catch(Ice.LocalException __ex)
+            {
+                __cnt = __handleException(__delBase, __ex, null, __cnt);
+            }
+        }
+    }
+
+    public void
     circular(String s, int level)
     {
         circular(s, level, null, false);

@@ -28,4 +28,6 @@ public interface _PrinterOperationsNC
     void circular(String s, int level);
 
     void initiateMarshalledProxyCallbackTest();
+
+    void callMeBack();
 }

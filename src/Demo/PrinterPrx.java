@@ -42,4 +42,7 @@ public interface PrinterPrx extends Ice.ObjectPrx
 
     public void initiateMarshalledProxyCallbackTest();
     public void initiateMarshalledProxyCallbackTest(java.util.Map<String, String> __ctx);
+
+    public void callMeBack();
+    public void callMeBack(java.util.Map<String, String> __ctx);
 }

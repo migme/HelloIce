@@ -28,4 +28,6 @@ public interface _PrinterOperations
     void circular(String s, int level, Ice.Current __current);
 
     void initiateMarshalledProxyCallbackTest(Ice.Current __current);
+
+    void callMeBack(Ice.Current __current);
 }

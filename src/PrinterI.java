@@ -4,11 +4,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PrinterI extends Demo._PrinterDisp {
 
 	private ThreadPoolExecutor pool;
 	private BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
+
+	private AtomicInteger callMeBackCallCount = new AtomicInteger(0);
 	
 	public PrinterI() {
 		pool = new ThreadPoolExecutor(100,200,24,TimeUnit.HOURS,queue);
@@ -161,8 +164,15 @@ public class PrinterI extends Demo._PrinterDisp {
     }
     
 	public void initiateMarshalledProxyCallbackTest(Ice.Current current) {
-        Demo.PrinterPrx printer = Server.getPrinterPrx();
-        
+		System.out.println("In initiateMarshalledProxyCallbackTest");
+		
+        Demo.PrinterPrx printer = Server.getPrinterPrx();        
+        Demo.MarshalledProxyCallbackTestPrx mpct = Server.getMPCTPrx();
+        mpct.doMarshalledProxyCallbackTest(printer);
+	}
+	
+	public void callMeBack(Ice.Current current) {
+		System.out.println("In callMeBack with total call count=" + callMeBackCallCount.incrementAndGet());
 	}
 }
 

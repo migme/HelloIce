@@ -87,6 +87,12 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
     }
 
     public final void
+    callMeBack()
+    {
+        callMeBack(null);
+    }
+
+    public final void
     circular(String s, int level)
     {
         circular(s, level, null);
@@ -248,11 +254,21 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
         return Ice.DispatchStatus.DispatchOK;
     }
 
+    public static Ice.DispatchStatus
+    ___callMeBack(Printer __obj, IceInternal.Incoming __inS, Ice.Current __current)
+    {
+        __checkMode(Ice.OperationMode.Normal, __current.mode);
+        __inS.is().skipEmptyEncaps();
+        __obj.callMeBack(__current);
+        return Ice.DispatchStatus.DispatchOK;
+    }
+
     private final static String[] __all =
     {
         "amdAppThreadCircular",
         "amdCircular",
         "amdPrintString",
+        "callMeBack",
         "circular",
         "ice_id",
         "ice_ids",
@@ -289,37 +305,41 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
             }
             case 3:
             {
-                return ___circular(this, in, __current);
+                return ___callMeBack(this, in, __current);
             }
             case 4:
             {
-                return ___ice_id(this, in, __current);
+                return ___circular(this, in, __current);
             }
             case 5:
             {
-                return ___ice_ids(this, in, __current);
+                return ___ice_id(this, in, __current);
             }
             case 6:
             {
-                return ___ice_isA(this, in, __current);
+                return ___ice_ids(this, in, __current);
             }
             case 7:
             {
-                return ___ice_ping(this, in, __current);
+                return ___ice_isA(this, in, __current);
             }
             case 8:
             {
-                return ___initiateMarshalledProxyCallbackTest(this, in, __current);
+                return ___ice_ping(this, in, __current);
             }
             case 9:
             {
-                return ___oldAmiCircular(this, in, __current);
+                return ___initiateMarshalledProxyCallbackTest(this, in, __current);
             }
             case 10:
             {
-                return ___oldAmiPrintString(this, in, __current);
+                return ___oldAmiCircular(this, in, __current);
             }
             case 11:
+            {
+                return ___oldAmiPrintString(this, in, __current);
+            }
+            case 12:
             {
                 return ___printString(this, in, __current);
             }
