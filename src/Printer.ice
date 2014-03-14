@@ -15,7 +15,8 @@ module Demo {
         /// void printString(string s);
         
         void initiateMarshalledProxyCallbackTest();
-		void callMeBack();
+		void callMeBack(string s);
+		void callMeBack2(string s);
     };
     
     interface MarshalledProxyCallbackTest {

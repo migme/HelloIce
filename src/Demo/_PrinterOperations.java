@@ -29,5 +29,7 @@ public interface _PrinterOperations
 
     void initiateMarshalledProxyCallbackTest(Ice.Current __current);
 
-    void callMeBack(Ice.Current __current);
+    void callMeBack(String s, Ice.Current __current);
+
+    void callMeBack2(String s, Ice.Current __current);
 }

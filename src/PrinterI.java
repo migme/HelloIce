@@ -171,8 +171,13 @@ public class PrinterI extends Demo._PrinterDisp {
         mpct.doMarshalledProxyCallbackTest(printer);
 	}
 	
-	public void callMeBack(Ice.Current current) {
-		System.out.println("In callMeBack with total call count=" + callMeBackCallCount.incrementAndGet());
+	public void callMeBack(String s,Ice.Current current) {
+		System.out.println("In callMeBack with total call count=" + callMeBackCallCount.incrementAndGet() +
+				 " passed string=" + s);
+	}
+	
+	public void callMeBack2(String s,Ice.Current current) {
+		System.out.println(s);
 	}
 }
 

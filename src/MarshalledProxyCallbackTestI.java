@@ -4,6 +4,8 @@ import Demo.PrinterPrx;
 
 public class MarshalledProxyCallbackTestI extends Demo._MarshalledProxyCallbackTestDisp {
 
+	private volatile int count = 0;
+	
     public void doMarshalledProxyCallbackTest(final PrinterPrx callMeBack, final Ice.Current current) {
 
     	final CountDownLatch latch = new CountDownLatch(1);
@@ -16,7 +18,7 @@ public class MarshalledProxyCallbackTestI extends Demo._MarshalledProxyCallbackT
 		    		}
 		    		catch (InterruptedException e) {}
 		    		
-		    		callMeBack.callMeBack();
+		    		callMeBack.callMeBack2("MPCT count=" + (++count) );
 		    	}
 	    	};
 	    	new Thread(r).start();

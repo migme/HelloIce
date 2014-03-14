@@ -87,9 +87,15 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
     }
 
     public final void
-    callMeBack()
+    callMeBack(String s)
     {
-        callMeBack(null);
+        callMeBack(s, null);
+    }
+
+    public final void
+    callMeBack2(String s)
+    {
+        callMeBack2(s, null);
     }
 
     public final void
@@ -258,8 +264,25 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
     ___callMeBack(Printer __obj, IceInternal.Incoming __inS, Ice.Current __current)
     {
         __checkMode(Ice.OperationMode.Normal, __current.mode);
-        __inS.is().skipEmptyEncaps();
-        __obj.callMeBack(__current);
+        IceInternal.BasicStream __is = __inS.is();
+        __is.startReadEncaps();
+        String s;
+        s = __is.readString();
+        __is.endReadEncaps();
+        __obj.callMeBack(s, __current);
+        return Ice.DispatchStatus.DispatchOK;
+    }
+
+    public static Ice.DispatchStatus
+    ___callMeBack2(Printer __obj, IceInternal.Incoming __inS, Ice.Current __current)
+    {
+        __checkMode(Ice.OperationMode.Normal, __current.mode);
+        IceInternal.BasicStream __is = __inS.is();
+        __is.startReadEncaps();
+        String s;
+        s = __is.readString();
+        __is.endReadEncaps();
+        __obj.callMeBack2(s, __current);
         return Ice.DispatchStatus.DispatchOK;
     }
 
@@ -269,6 +292,7 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
         "amdCircular",
         "amdPrintString",
         "callMeBack",
+        "callMeBack2",
         "circular",
         "ice_id",
         "ice_ids",
@@ -309,37 +333,41 @@ public abstract class _PrinterDisp extends Ice.ObjectImpl implements Printer
             }
             case 4:
             {
-                return ___circular(this, in, __current);
+                return ___callMeBack2(this, in, __current);
             }
             case 5:
             {
-                return ___ice_id(this, in, __current);
+                return ___circular(this, in, __current);
             }
             case 6:
             {
-                return ___ice_ids(this, in, __current);
+                return ___ice_id(this, in, __current);
             }
             case 7:
             {
-                return ___ice_isA(this, in, __current);
+                return ___ice_ids(this, in, __current);
             }
             case 8:
             {
-                return ___ice_ping(this, in, __current);
+                return ___ice_isA(this, in, __current);
             }
             case 9:
             {
-                return ___initiateMarshalledProxyCallbackTest(this, in, __current);
+                return ___ice_ping(this, in, __current);
             }
             case 10:
             {
-                return ___oldAmiCircular(this, in, __current);
+                return ___initiateMarshalledProxyCallbackTest(this, in, __current);
             }
             case 11:
             {
-                return ___oldAmiPrintString(this, in, __current);
+                return ___oldAmiCircular(this, in, __current);
             }
             case 12:
+            {
+                return ___oldAmiPrintString(this, in, __current);
+            }
+            case 13:
             {
                 return ___printString(this, in, __current);
             }

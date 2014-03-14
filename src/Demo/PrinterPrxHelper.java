@@ -140,20 +140,20 @@ public final class PrinterPrxHelper extends Ice.ObjectPrxHelperBase implements P
     }
 
     public void
-    callMeBack()
+    callMeBack(String s)
     {
-        callMeBack(null, false);
+        callMeBack(s, null, false);
     }
 
     public void
-    callMeBack(java.util.Map<String, String> __ctx)
+    callMeBack(String s, java.util.Map<String, String> __ctx)
     {
-        callMeBack(__ctx, true);
+        callMeBack(s, __ctx, true);
     }
 
     @SuppressWarnings("unchecked")
     private void
-    callMeBack(java.util.Map<String, String> __ctx, boolean __explicitCtx)
+    callMeBack(String s, java.util.Map<String, String> __ctx, boolean __explicitCtx)
     {
         if(__explicitCtx && __ctx == null)
         {
@@ -167,7 +167,49 @@ public final class PrinterPrxHelper extends Ice.ObjectPrxHelperBase implements P
             {
                 __delBase = __getDelegate(false);
                 _PrinterDel __del = (_PrinterDel)__delBase;
-                __del.callMeBack(__ctx);
+                __del.callMeBack(s, __ctx);
+                return;
+            }
+            catch(IceInternal.LocalExceptionWrapper __ex)
+            {
+                __handleExceptionWrapper(__delBase, __ex, null);
+            }
+            catch(Ice.LocalException __ex)
+            {
+                __cnt = __handleException(__delBase, __ex, null, __cnt);
+            }
+        }
+    }
+
+    public void
+    callMeBack2(String s)
+    {
+        callMeBack2(s, null, false);
+    }
+
+    public void
+    callMeBack2(String s, java.util.Map<String, String> __ctx)
+    {
+        callMeBack2(s, __ctx, true);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void
+    callMeBack2(String s, java.util.Map<String, String> __ctx, boolean __explicitCtx)
+    {
+        if(__explicitCtx && __ctx == null)
+        {
+            __ctx = _emptyContext;
+        }
+        int __cnt = 0;
+        while(true)
+        {
+            Ice._ObjectDel __delBase = null;
+            try
+            {
+                __delBase = __getDelegate(false);
+                _PrinterDel __del = (_PrinterDel)__delBase;
+                __del.callMeBack2(s, __ctx);
                 return;
             }
             catch(IceInternal.LocalExceptionWrapper __ex)
