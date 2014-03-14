@@ -22,4 +22,12 @@ public interface _PrinterOperationsNC
     void amdCircular_async(AMD_Printer_amdCircular __cb, String s, int level);
 
     void amdAppThreadCircular_async(AMD_Printer_amdAppThreadCircular __cb, String s, int level);
+
+    void printString(String s);
+
+    void circular(String s, int level);
+
+    void initiateMarshalledProxyCallbackTest();
+
+    void callMeBack();
 }

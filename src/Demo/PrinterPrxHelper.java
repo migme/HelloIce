@@ -140,6 +140,132 @@ public final class PrinterPrxHelper extends Ice.ObjectPrxHelperBase implements P
     }
 
     public void
+    callMeBack()
+    {
+        callMeBack(null, false);
+    }
+
+    public void
+    callMeBack(java.util.Map<String, String> __ctx)
+    {
+        callMeBack(__ctx, true);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void
+    callMeBack(java.util.Map<String, String> __ctx, boolean __explicitCtx)
+    {
+        if(__explicitCtx && __ctx == null)
+        {
+            __ctx = _emptyContext;
+        }
+        int __cnt = 0;
+        while(true)
+        {
+            Ice._ObjectDel __delBase = null;
+            try
+            {
+                __delBase = __getDelegate(false);
+                _PrinterDel __del = (_PrinterDel)__delBase;
+                __del.callMeBack(__ctx);
+                return;
+            }
+            catch(IceInternal.LocalExceptionWrapper __ex)
+            {
+                __handleExceptionWrapper(__delBase, __ex, null);
+            }
+            catch(Ice.LocalException __ex)
+            {
+                __cnt = __handleException(__delBase, __ex, null, __cnt);
+            }
+        }
+    }
+
+    public void
+    circular(String s, int level)
+    {
+        circular(s, level, null, false);
+    }
+
+    public void
+    circular(String s, int level, java.util.Map<String, String> __ctx)
+    {
+        circular(s, level, __ctx, true);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void
+    circular(String s, int level, java.util.Map<String, String> __ctx, boolean __explicitCtx)
+    {
+        if(__explicitCtx && __ctx == null)
+        {
+            __ctx = _emptyContext;
+        }
+        int __cnt = 0;
+        while(true)
+        {
+            Ice._ObjectDel __delBase = null;
+            try
+            {
+                __delBase = __getDelegate(false);
+                _PrinterDel __del = (_PrinterDel)__delBase;
+                __del.circular(s, level, __ctx);
+                return;
+            }
+            catch(IceInternal.LocalExceptionWrapper __ex)
+            {
+                __handleExceptionWrapper(__delBase, __ex, null);
+            }
+            catch(Ice.LocalException __ex)
+            {
+                __cnt = __handleException(__delBase, __ex, null, __cnt);
+            }
+        }
+    }
+
+    public void
+    initiateMarshalledProxyCallbackTest()
+    {
+        initiateMarshalledProxyCallbackTest(null, false);
+    }
+
+    public void
+    initiateMarshalledProxyCallbackTest(java.util.Map<String, String> __ctx)
+    {
+        initiateMarshalledProxyCallbackTest(__ctx, true);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void
+    initiateMarshalledProxyCallbackTest(java.util.Map<String, String> __ctx, boolean __explicitCtx)
+    {
+        if(__explicitCtx && __ctx == null)
+        {
+            __ctx = _emptyContext;
+        }
+        int __cnt = 0;
+        while(true)
+        {
+            Ice._ObjectDel __delBase = null;
+            try
+            {
+                __delBase = __getDelegate(false);
+                _PrinterDel __del = (_PrinterDel)__delBase;
+                __del.initiateMarshalledProxyCallbackTest(__ctx);
+                return;
+            }
+            catch(IceInternal.LocalExceptionWrapper __ex)
+            {
+                __handleExceptionWrapper(__delBase, __ex, null);
+            }
+            catch(Ice.LocalException __ex)
+            {
+                __cnt = __handleException(__delBase, __ex, null, __cnt);
+            }
+        }
+    }
+
+    public void
     oldAmiCircular(String s, int level)
     {
         oldAmiCircular(s, level, null, false);
@@ -267,6 +393,48 @@ public final class PrinterPrxHelper extends Ice.ObjectPrxHelperBase implements P
             __ctx = _emptyContext;
         }
         return __cb.__invoke(this, __cb, s, __ctx);
+    }
+
+    public void
+    printString(String s)
+    {
+        printString(s, null, false);
+    }
+
+    public void
+    printString(String s, java.util.Map<String, String> __ctx)
+    {
+        printString(s, __ctx, true);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void
+    printString(String s, java.util.Map<String, String> __ctx, boolean __explicitCtx)
+    {
+        if(__explicitCtx && __ctx == null)
+        {
+            __ctx = _emptyContext;
+        }
+        int __cnt = 0;
+        while(true)
+        {
+            Ice._ObjectDel __delBase = null;
+            try
+            {
+                __delBase = __getDelegate(false);
+                _PrinterDel __del = (_PrinterDel)__delBase;
+                __del.printString(s, __ctx);
+                return;
+            }
+            catch(IceInternal.LocalExceptionWrapper __ex)
+            {
+                __handleExceptionWrapper(__delBase, __ex, null);
+            }
+            catch(Ice.LocalException __ex)
+            {
+                __cnt = __handleException(__delBase, __ex, null, __cnt);
+            }
+        }
     }
 
     public static PrinterPrx

@@ -27,4 +27,16 @@ public interface _PrinterDel extends Ice._ObjectDel
 
     void amdAppThreadCircular(String s, int level, java.util.Map<String, String> __ctx)
         throws IceInternal.LocalExceptionWrapper;
+
+    void printString(String s, java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper;
+
+    void circular(String s, int level, java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper;
+
+    void initiateMarshalledProxyCallbackTest(java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper;
+
+    void callMeBack(java.util.Map<String, String> __ctx)
+        throws IceInternal.LocalExceptionWrapper;
 }

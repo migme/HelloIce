@@ -33,4 +33,16 @@ public interface PrinterPrx extends Ice.ObjectPrx
 
     public void amdAppThreadCircular(String s, int level);
     public void amdAppThreadCircular(String s, int level, java.util.Map<String, String> __ctx);
+
+    public void printString(String s);
+    public void printString(String s, java.util.Map<String, String> __ctx);
+
+    public void circular(String s, int level);
+    public void circular(String s, int level, java.util.Map<String, String> __ctx);
+
+    public void initiateMarshalledProxyCallbackTest();
+    public void initiateMarshalledProxyCallbackTest(java.util.Map<String, String> __ctx);
+
+    public void callMeBack();
+    public void callMeBack(java.util.Map<String, String> __ctx);
 }

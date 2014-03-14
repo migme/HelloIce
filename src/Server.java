@@ -5,8 +5,13 @@ public class Server {
     private static Ice.Communicator ic = null;
     
     public static synchronized Demo.PrinterPrx getPrinterPrx() {
-        Ice.ObjectPrx base = Server.ic.stringToProxy("SimplePrinter:default -p 10000");
+        Ice.ObjectPrx base = Server.ic.stringToProxy(Constants.PRINTER_OBJECT_IDENTITY +":default -p " + Constants.PRINTER_ADAPTER_PORT);
         return Demo.PrinterPrxHelper.checkedCast(base);
+    }
+
+    public static synchronized Demo.MarshalledProxyCallbackTestPrx getMPCTPrx() {
+        Ice.ObjectPrx base = Server.ic.stringToProxy(Constants.MPCT_OBJECT_IDENTITY +":default -p " + Constants.MPCT_ADAPTER_PORT);
+        return Demo.MarshalledProxyCallbackTestPrxHelper.checkedCast(base);
     }
 
     public static void main(String[] args)
@@ -20,6 +25,7 @@ public class Server {
         	// properties.setProperty("Ice.ThreadPool.Client.Size", "2");
         	// properties.setProperty("Ice.ThreadPool.Client.SizeMax", "2");
 
+        	/*
         	properties.setProperty("Ice.Default.CollocationOptimized", "0");
         	
         	final boolean LOW_THREADS = true;
@@ -29,56 +35,54 @@ public class Server {
         	}
 
         	properties.setProperty("Ice.Trace.Slicing", "1");
+        	*/
 
         	Ice.InitializationData id = new Ice.InitializationData();
         	id.properties = properties;
         	
             ic = Ice.Util.initialize(id);
-            Ice.ObjectAdapter adapter =
-                ic.createObjectAdapterWithEndpoints("SimplePrinterAdapter", "default -p 10000");
-            System.out.println("adapter=" + adapter);
-            System.out.println("adapter.hc=" + adapter.hashCode());
-            Ice.Object object = new PrinterI();
             
-            Ice.ObjectPrx objPrx;
-            final boolean INTERCEPTOR_ON = false;
-            if (INTERCEPTOR_ON) {
-            	// TestInterceptor interceptor = new TestInterceptor(object);
-            	// objPrx = adapter.add(interceptor, ic.stringToIdentity("SimplePrinter"));
-            }
-            else {
-            	objPrx = adapter.add(object, ic.stringToIdentity("SimplePrinter"));
-            }
-                        
-            adapter.activate();
+            createPrinterI();
+            createMarshalledProxyCallbackTestI();
+            
             ic.waitForShutdown();
-        } catch (Ice.LocalException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             status = 1;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            status = 1;
         }
+
         if (ic != null) {
-            // Clean up
-            //
-            try {
-                ic.destroy();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-                status = 1;
-            }
+            try {ic.destroy();} catch (Exception e) {}
         }
         System.exit(status);
     }
-    
-    /*
-    private void makeTestCall(Ice.ObjectPrx objPrx) {
-        System.out.println("Making call on objPrx");
-        Demo.PrinterPrx printer = Demo.PrinterPrxHelper.checkedCast(objPrx);
-        printer.printString("Called from Server.main");
-        System.out.println("Made call on objPrx");    	
+
+    private static void createPrinterI() {
+        Ice.ObjectAdapter adapter = ic.createObjectAdapterWithEndpoints(
+        		Constants.PRINTER_ADAPTER_NAME, "default -p " + Constants.PRINTER_ADAPTER_PORT);
+        System.out.println("adapter=" + adapter);
+        System.out.println("adapter.hc=" + adapter.hashCode());
+        Ice.Object object = new PrinterI();
+        
+        final boolean INTERCEPTOR_ON = false;
+        if (INTERCEPTOR_ON) {
+        	// TestInterceptor interceptor = new TestInterceptor(object);
+        	// objPrx = adapter.add(interceptor, ic.stringToIdentity("SimplePrinter"));
+        }
+        else {
+        	Ice.ObjectPrx objPrx = adapter.add(object, ic.stringToIdentity(Constants.PRINTER_OBJECT_IDENTITY));
+        }
+                    
+        adapter.activate();    	
     }
-    */
+
+    private static void createMarshalledProxyCallbackTestI() {
+        Ice.ObjectAdapter adapter = ic.createObjectAdapterWithEndpoints(
+        		Constants.MPCT_ADAPTER_NAME, "default -p " + Constants.MPCT_ADAPTER_PORT);
+        Ice.Object object = new MarshalledProxyCallbackTestI();
+        
+        Ice.ObjectPrx objPrx = adapter.add(object, ic.stringToIdentity(Constants.MPCT_OBJECT_IDENTITY));
+        adapter.activate();    	    	
+    }
 }
 
