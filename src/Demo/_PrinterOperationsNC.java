@@ -29,5 +29,7 @@ public interface _PrinterOperationsNC
 
     void initiateMarshalledProxyCallbackTest();
 
-    void callMeBack();
+    void callMeBack(String s);
+
+    void callMeBack2(String s);
 }
