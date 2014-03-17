@@ -1,10 +1,11 @@
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import Demo.PrinterPrx;
 
 public class MarshalledProxyCallbackTestI extends Demo._MarshalledProxyCallbackTestDisp {
 
-	private volatile int count = 0;
+	private AtomicInteger count = new AtomicInteger(0);
 	
     public void doMarshalledProxyCallbackTest(final PrinterPrx callMeBack, final Ice.Current current) {
 
@@ -18,7 +19,7 @@ public class MarshalledProxyCallbackTestI extends Demo._MarshalledProxyCallbackT
 		    		}
 		    		catch (InterruptedException e) {}
 		    		
-		    		callMeBack.callMeBack2("MPCT count=" + (++count) );
+		    		callMeBack.callMeBack2("MPCT count=" + (count.incrementAndGet()) );
 		    	}
 	    	};
 	    	new Thread(r).start();
