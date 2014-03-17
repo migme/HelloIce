@@ -30,6 +30,8 @@ public class Server {
         	
         	final boolean LOW_THREADS = true;
         	if (LOW_THREADS) {
+        		properties.setProperty("Ice.ThreadPool.Client.Size", "1");
+        		properties.setProperty("Ice.ThreadPool.Client.SizeMax", "1");
         		properties.setProperty("Ice.ThreadPool.Server.Size", "1");
         		properties.setProperty("Ice.ThreadPool.Server.SizeMax", "1");
         	}
