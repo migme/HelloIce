@@ -182,9 +182,11 @@ public class PrinterI extends Demo._PrinterDisp {
 	}
 	
 	public void oneway(Ice.Current current) {
+		System.out.println("oneway called with connection=" + current.con);
 	}
 
 	public void blockForever(Ice.Current current) {
+		System.out.println("blockForever called with connection=" + current.con);
 		try {Thread.sleep(Long.MAX_VALUE);} catch (Exception e) {}
 	}
 

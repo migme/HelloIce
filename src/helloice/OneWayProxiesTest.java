@@ -33,15 +33,20 @@ public class OneWayProxiesTest implements Runnable
 			System.err.println(localException1);
 		}
 
-		new OneWayProxiesTest().run();
+		new Thread(new OneWayProxiesTest()).start();
 
+		System.out.println("Sleeping");
 		try
 		{
 			Thread.sleep(5000L);
 		}
 		catch (Exception localException2) {}
 
-		printer.oneway();
+		System.out.println("Making oneway call");
+		final PrinterPrx oneWayPrx = PrinterPrxHelper.uncheckedCast(printer.ice_oneway());
+		oneWayPrx.oneway();
+		System.out.println("Made oneway call");
+
 		try
 		{
 			Thread.sleep(120000L);
