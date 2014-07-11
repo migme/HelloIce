@@ -1,3 +1,5 @@
+pkill -f helloice
+
 mkdir bin
 mkdir generated
 mkdir generated/Demo
