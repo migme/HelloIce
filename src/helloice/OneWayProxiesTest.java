@@ -13,24 +13,35 @@ public class OneWayProxiesTest implements Runnable
 {
 	private static Communicator ic;
 	private static PrinterPrx printer;
+	private static PrinterPrx oneWayPrx;
 
 	public static void main(String[] paramArrayOfString)
 	{
 		try
 		{
-			Properties localProperties = Util.createProperties();
-			localProperties.setProperty("Ice.Trace.Slicing", "1");
+			// Properties localProperties = Util.createProperties();
+			// localProperties.setProperty("Ice.Trace.Slicing", "1");
+			// InitializationData localInitializationData = new InitializationData();
+			// localInitializationData.properties = localProperties;
 
-			InitializationData localInitializationData = new InitializationData();
-			localInitializationData.properties = localProperties;
-
-			ic = Util.initialize(paramArrayOfString, localInitializationData);
+			ic = Util.initialize(); // paramArrayOfString, localInitializationData);
+			
 			ObjectPrx localObjectPrx = ic.stringToProxy("SimplePrinter:default -p 10000");
 			printer = PrinterPrxHelper.checkedCast(localObjectPrx);
+			
+			oneWayPrx = PrinterPrxHelper.checkedCast(ic.stringToProxy("SimplePrinter:default -p 10000"));
+
+			System.out.println("Setting to one way");
+			oneWayPrx = PrinterPrxHelper.checkedCast(oneWayPrx.ice_oneway());
+			
+			System.out.println("Setting ice connection id");
+			oneWayPrx = PrinterPrxHelper.checkedCast(oneWayPrx.ice_connectionId("oneway"));
+
 		}
 		catch (Exception localException1)
 		{
 			System.err.println(localException1);
+			System.exit(-1);
 		}
 
 		new Thread(new OneWayProxiesTest()).start();
@@ -42,10 +53,11 @@ public class OneWayProxiesTest implements Runnable
 		}
 		catch (Exception localException2) {}
 
-		System.out.println("Making oneway call");
-		final PrinterPrx oneWayPrx = PrinterPrxHelper.uncheckedCast(printer.ice_oneway());
-		oneWayPrx.oneway();
-		System.out.println("Made oneway call");
+		for (int i=0; i<10000; i++) {
+			System.out.println("Making oneway call");
+			oneWayPrx.oneway();
+			System.out.println("Made oneway call");
+		}
 
 		try
 		{
