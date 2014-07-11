@@ -1,3 +1,4 @@
+package helloice;
 
 public class Constants {
 	public static final String PRINTER_OBJECT_IDENTITY = "SimplePrinter";
