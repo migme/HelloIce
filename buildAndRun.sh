@@ -1,4 +1,7 @@
 mkdir bin
+mkdir generated
+mkdir generated/Demo
+
 rm generated/Demo/*
 ls generated/Demo
 $ICE_HOME/bin/slice2java --output-dir generated/  src/Printer.ice
