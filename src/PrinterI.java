@@ -179,5 +179,13 @@ public class PrinterI extends Demo._PrinterDisp {
 	public void callMeBack2(String s,Ice.Current current) {
 		System.out.println(s);
 	}
+	
+	public void oneway(Ice.Current current) {
+	}
+
+	public void blockForever(Ice.Current current) {
+		try {Thread.sleep(Long.MAX_VALUE);} catch (Exception e) {}
+	}
+
 }
 
