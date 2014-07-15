@@ -11,6 +11,10 @@ import java.io.PrintStream;
 
 public class OneWayProxiesTest implements Runnable
 {
+	public static final boolean SEPARATE_GROUP = true;
+	public static final boolean BLOCK_TWO_WAY_FOREVER = false;
+	public static final boolean MULTIPLE_ONE_WAY_CALLS = true;
+	
 	private static Communicator ic;
 	private static PrinterPrx printer;
 	private static PrinterPrx oneWayPrx;
@@ -34,8 +38,10 @@ public class OneWayProxiesTest implements Runnable
 			System.out.println("Setting to one way");
 			oneWayPrx = PrinterPrxHelper.checkedCast(oneWayPrx.ice_oneway());
 			
-			System.out.println("Setting ice connection id");
-			oneWayPrx = PrinterPrxHelper.checkedCast(oneWayPrx.ice_connectionId("oneway"));
+			if (SEPARATE_GROUP) {
+				System.out.println("Setting ice connection id");
+				oneWayPrx = PrinterPrxHelper.checkedCast(oneWayPrx.ice_connectionId("oneway"));
+			}
 
 		}
 		catch (Exception localException1)
@@ -53,7 +59,9 @@ public class OneWayProxiesTest implements Runnable
 		}
 		catch (Exception localException2) {}
 
-		for (int i=0; i<10000; i++) {
+		final int calls = MULTIPLE_ONE_WAY_CALLS ? 5 : 1;
+		
+		for (int i=0; i<calls; i++) {
 			System.out.println("Making oneway call");
 			oneWayPrx.oneway();
 			System.out.println("Made oneway call");
@@ -71,9 +79,9 @@ public class OneWayProxiesTest implements Runnable
 	{
 		try
 		{
-			System.out.println("Calling blockForever");
-			printer.blockForever();
-			System.out.println("Called blockForever");
+			System.out.println("Calling twowayMightBlock");
+			printer.twowayMightBlock();
+			System.out.println("Called twowayMightBlock");
 		}
 		catch (Exception localException)
 		{

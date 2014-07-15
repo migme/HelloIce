@@ -181,17 +181,47 @@ public class PrinterI extends Demo._PrinterDisp {
 		System.out.println(s);
 	}
 	
-static int count = 0;	
+	static int count = 0;
+	static Ice.Connection twoWayCxn;
+	static Thread twoWayThread;
 	
 	public void oneway(Ice.Current current) {
-		System.out.println("\n oneway called with connection=" + current.con + " count=" + (count++) + "\n");
+		System.out.println("\n oneway called with connection=" + current.con + " connection.hc=" + current.con.hashCode() +
+				" count=" + (count++) + " thread=" + Thread.currentThread() + "\n");
+		
+		if (OneWayProxiesTest.SEPARATE_GROUP || OneWayProxiesTest.BLOCK_TWO_WAY_FOREVER) {
+			assert(current.con.hashCode() != twoWayCxn.hashCode());
+			System.out.println("DIFFERENT CONNECTION USED AS EXPECTED");
+		}
+		else {
+			assert(current.con.hashCode() == twoWayCxn.hashCode());		
+			System.out.println("SAME CONNECTION USED AS EXPECTED");
+		}
+		
+		if (false==OneWayProxiesTest.MULTIPLE_ONE_WAY_CALLS) {
+			if (OneWayProxiesTest.BLOCK_TWO_WAY_FOREVER) {
+				assert(Thread.currentThread().getId() != twoWayThread.getId());
+				System.out.println("DIFFERENT THREAD USED AS EXPECTED");			
+			}
+			else {
+				assert(Thread.currentThread().getId() == twoWayThread.getId());
+				System.out.println("SAME THREAD USED AS EXPECTED");						
+			}
+		}
 	}
 
-	public void blockForever(Ice.Current current) {
-		System.out.println("\n blockForever called with connection=" + current.con + "\n");
-		try {Thread.sleep(Long.MAX_VALUE);} catch (Exception e) {}
+	public void twowayMightBlock(Ice.Current current) {
+		System.out.println("\n blockForever called with connection=" + current.con + " connection.hc=" + current.con.hashCode() +
+				" thread=" + Thread.currentThread() + "\n");
+
+		twoWayCxn = current.con;
+		twoWayThread = Thread.currentThread();
+		
+		if (OneWayProxiesTest.BLOCK_TWO_WAY_FOREVER) {
+			try {Thread.sleep(Long.MAX_VALUE);} catch (Exception e) {}
+		}
+		
 		System.out.println("exiting blockForever");
 	}
-
 }
 
