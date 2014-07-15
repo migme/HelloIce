@@ -1,4 +1,4 @@
-
+package helloice;
 
 public class Server {
 	
@@ -21,7 +21,7 @@ public class Server {
         	
         	Ice.Properties properties = Ice.Util.createProperties();
         	
-           	///// properties.setProperty("SimplePrinterAdapter.ThreadPool.Size", "15");
+           	properties.setProperty("SimplePrinterAdapter.ThreadPool.Size", "2");
         	// properties.setProperty("Ice.ThreadPool.Client.Size", "2");
         	// properties.setProperty("Ice.ThreadPool.Client.SizeMax", "2");
 

@@ -17,6 +17,10 @@ module Demo {
         void initiateMarshalledProxyCallbackTest();
 		void callMeBack(string s);
 		void callMeBack2(string s);
+		
+		// oneway proxies and connection pooling test
+		void oneway();
+		void blockForever();
     };
     
     interface MarshalledProxyCallbackTest {

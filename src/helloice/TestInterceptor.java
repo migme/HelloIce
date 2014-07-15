@@ -1,5 +1,7 @@
 // TestInterceptor.java
 
+package helloice;
+
 import Ice.Current;
 import Ice.DispatchStatus;
 import Ice.Request;
