@@ -223,5 +223,17 @@ public class PrinterI extends Demo._PrinterDisp {
 		
 		System.out.println("exiting blockForever");
 	}
+	
+	private static AtomicInteger onewayTestDeactivatedServantCount = new AtomicInteger(0);
+	
+	public void onewayTestDeactivatedServant(Ice.Current current) {
+		System.out.println("onewayTestDeactivatedServant");
+		
+		int val = onewayTestDeactivatedServantCount.incrementAndGet();
+		if (val==10) {
+			Server.deregisterPrinterI();
+		}
+	}
+
 }
 

@@ -21,6 +21,8 @@ module Demo {
 		// oneway proxies and connection pooling test
 		void oneway();
 		void twowayMightBlock();
+		
+		void onewayTestDeactivatedServant();
     };
     
     interface MarshalledProxyCallbackTest {
