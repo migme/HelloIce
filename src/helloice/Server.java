@@ -3,6 +3,7 @@ package helloice;
 public class Server {
 	
     private static Ice.Communicator ic = null;
+    private static Ice.ObjectAdapter printeriAdapter = null;
     
     public static synchronized Demo.PrinterPrx getPrinterPrx() {
         Ice.ObjectPrx base = Server.ic.stringToProxy(Constants.PRINTER_OBJECT_IDENTITY +":default -p " + Constants.PRINTER_ADAPTER_PORT);
@@ -58,10 +59,10 @@ public class Server {
     }
 
     private static void createPrinterI() {
-        Ice.ObjectAdapter adapter = ic.createObjectAdapterWithEndpoints(
+        printeriAdapter = ic.createObjectAdapterWithEndpoints(
         		Constants.PRINTER_ADAPTER_NAME, "default -p " + Constants.PRINTER_ADAPTER_PORT);
-        System.out.println("adapter=" + adapter);
-        System.out.println("adapter.hc=" + adapter.hashCode());
+        System.out.println("printeriAdapter=" + printeriAdapter);
+        System.out.println("printeriAdapter.hc=" + printeriAdapter.hashCode());
         Ice.Object object = new PrinterI();
         
         final boolean INTERCEPTOR_ON = false;
@@ -70,10 +71,10 @@ public class Server {
         	// objPrx = adapter.add(interceptor, ic.stringToIdentity("SimplePrinter"));
         }
         else {
-        	Ice.ObjectPrx objPrx = adapter.add(object, ic.stringToIdentity(Constants.PRINTER_OBJECT_IDENTITY));
+        	Ice.ObjectPrx objPrx = printeriAdapter.add(object, ic.stringToIdentity(Constants.PRINTER_OBJECT_IDENTITY));
         }
                     
-        adapter.activate();    	
+        printeriAdapter.activate();    	
     }
 
     private static void createMarshalledProxyCallbackTestI() {
@@ -83,6 +84,11 @@ public class Server {
         
         Ice.ObjectPrx objPrx = adapter.add(object, ic.stringToIdentity(Constants.MPCT_OBJECT_IDENTITY));
         adapter.activate();    	    	
+    }
+    
+    public static void deregisterPrinterI() {
+    	printeriAdapter.remove( ic.stringToIdentity(Constants.PRINTER_OBJECT_IDENTITY) );
+    	System.out.println("Removed PrinterI from PrinterI ObjectAdapter");
     }
 }
 
