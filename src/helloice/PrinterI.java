@@ -13,6 +13,7 @@ public class PrinterI extends Demo._PrinterDisp {
 	private BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
 
 	private AtomicInteger callMeBackCallCount = new AtomicInteger(0);
+	private AtomicInteger magicLevel = new AtomicInteger(0);
 	
 	public PrinterI() {
 		pool = new ThreadPoolExecutor(100,200,24,TimeUnit.HOURS,queue);
@@ -102,6 +103,12 @@ public class PrinterI extends Demo._PrinterDisp {
     	});
     }
 
+	public void incrementMagicLevel(Ice.Current current) {
+		magicLevel.incrementAndGet();
+		//if (magicLevel.get() % 1000 == 0) {
+		//	System.out.println("magicLevel=" + magicLevel.get());
+		//}
+	}
     
 	public void printString(String s, Ice.Current current) {
         System.out.println("\n Entering PrinterI.printString... t=" + System.currentTimeMillis());

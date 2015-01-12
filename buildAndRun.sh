@@ -15,5 +15,5 @@ java -ea -cp $ICE_HOME/lib/Ice.jar:./bin/  helloice.Server  &
 
 sleep 5
 echo "Running client"
-java -ea -cp $ICE_HOME/lib/Ice.jar:./bin/  helloice.OneWayCallsAgainstDeactivatedServantTest
+java -ea -cp $ICE_HOME/lib/Ice.jar:./bin/  helloice.BatchedMultiplexedCallsTest
 
