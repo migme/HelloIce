@@ -16,11 +16,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class BatchedMultiplexedCallsTest
 {
-	final static int WORKER_COUNT = 100;
+	final static int ENTITY_COUNT = 100;
 	final static Communicator ic = Util.initialize();
 	
 	final Map<String,PrinterPrx> multiplexerLookup = new HashMap<String,PrinterPrx>();
-	final CountDownLatch finishedLatch = new CountDownLatch(WORKER_COUNT);
+	final CountDownLatch finishedLatch = new CountDownLatch(ENTITY_COUNT);
 
 	final AtomicLong totalBatchedTime = new AtomicLong(0);
 	final AtomicLong totalNonBatchedTime = new AtomicLong(0);
@@ -35,7 +35,7 @@ public class BatchedMultiplexedCallsTest
 		final PrinterPrx oneway = PrinterPrxHelper.checkedCast(printer.ice_oneway());
 		final PrinterPrx batchedOneway = PrinterPrxHelper.checkedCast(printer.ice_batchOneway());
 		
-		for (int i=0; i<WORKER_COUNT; i++) {
+		for (int i=0; i<ENTITY_COUNT; i++) {
 			Entity u = new Entity();
 			multiplexerLookup.put(u.getMultiplexerKey(), batchedOneway);
 			new Thread(u).start();
@@ -53,12 +53,12 @@ public class BatchedMultiplexedCallsTest
 		public void run() {
 			final ObjectPrx op = ic.stringToProxy("SimplePrinter:default -p 10000");
 			final PrinterPrx printer = PrinterPrxHelper.checkedCast(op);		
-			final PrinterPrx oneway = PrinterPrxHelper.checkedCast(printer.ice_oneway());
+			final PrinterPrx ownOneway = PrinterPrxHelper.checkedCast(printer.ice_oneway());
 
 			for (int i=0; i<10; i++) {
 				final int n = 20000;
-				totalBatchedTime.addAndGet( makeNCalls(n, oneway, true));
-				totalNonBatchedTime.addAndGet( makeNCalls(n, oneway, false));
+				totalBatchedTime.addAndGet( makeNCalls(n, null));
+				totalNonBatchedTime.addAndGet( makeNCalls(n, ownOneway));
 			}
 			
 			finishedLatch.countDown();
@@ -66,16 +66,16 @@ public class BatchedMultiplexedCallsTest
 
 		public String getMultiplexerKey() {return multiplexerKey;}
 		
-		private long makeNCalls(final int n, final PrinterPrx prx, final boolean batched) {
+		private long makeNCalls(final int n, final PrinterPrx ownOneway) {
 			final long start = System.currentTimeMillis();
 
 			for (int i=0; i < n; i++) {
-				if (batched) {
-					final PrinterPrx sharedOneway = multiplexerLookup.get(multiplexerKey);
-					sharedOneway.incrementMagicLevel();				
+				if (ownOneway == null) {
+					final PrinterPrx sharedBatchedOneway = multiplexerLookup.get(multiplexerKey);
+					sharedBatchedOneway.incrementMagicLevel();				
 				}
 				else {			
-					prx.incrementMagicLevel();
+					ownOneway.incrementMagicLevel();
 				}
 			}
 
